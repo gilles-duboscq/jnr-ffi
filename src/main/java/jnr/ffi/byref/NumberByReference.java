@@ -1,3 +1,21 @@
+/*
+ * Copyright (C) 2012 Wayne Meissner
+ *
+ * This file is part of the JNR project.
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *    http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+
 package jnr.ffi.byref;
 
 import jnr.ffi.*;
@@ -8,7 +26,7 @@ import jnr.ffi.Runtime;
  * as a parameter to a function, but the exact type is system dependent.
  *
  * <p>For example, the following C code,
- * <p><pre>
+ * <pre>
  * {@code
  *
  * extern void get_size(ssize_t *sp);
@@ -20,11 +38,11 @@ import jnr.ffi.Runtime;
  *
  *     return n;
  * }
- *
  * }
  * </pre>
- * <p>Would be declared in java as
- * <p><pre>
+ * <p>
+ * Would be declared in java as
+ * <pre>
  * {@code
  *
  * interface Lib {
@@ -33,8 +51,9 @@ import jnr.ffi.Runtime;
  *
  * }
  * </pre>
- * <p>and used like this
- * <p><pre>
+ * <p>
+ * and used like this
+ * <pre>
  * {@code
  *
  * NumberByReference size = new NumberByReference(ssize_t);
