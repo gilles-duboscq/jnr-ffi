@@ -1,3 +1,21 @@
+/*
+ * Copyright (C) 2012 Wayne Meissner
+ *
+ * This file is part of the JNR project.
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *    http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+
 package jnr.ffi;
 
 import jnr.ffi.mapper.*;
@@ -5,7 +23,10 @@ import jnr.ffi.provider.FFIProvider;
 import jnr.ffi.provider.LoadedLibrary;
 import jnr.ffi.provider.NativeInvocationHandler;
 
+import java.io.BufferedReader;
 import java.io.File;
+import java.io.FileReader;
+import java.io.IOException;
 import java.lang.reflect.InvocationHandler;
 import java.lang.reflect.Method;
 import java.lang.reflect.Proxy;
@@ -27,7 +48,7 @@ import java.util.*;
  * libc.puts("Hello, World");
  *
  * }
- * </pre></p>
+ * </pre>
  */
 public abstract class LibraryLoader<T> {
     private final List<String> searchPaths = new ArrayList<String>();
@@ -44,6 +65,7 @@ public abstract class LibraryLoader<T> {
     /**
      * Creates a new {@code LibraryLoader} instance.
      *
+     * @param <T> The library type.
      * @param interfaceClass the interface that describes the native library functions
      * @return A {@code LibraryLoader} instance.
      */
@@ -84,7 +106,7 @@ public abstract class LibraryLoader<T> {
      *
      * @see LibraryOption
      *
-     * @param option The option to set
+     * @param option The option to set.
      * @param value The value for the option.
      * @return The {@code LibraryLoader} instance.
      */
@@ -145,6 +167,7 @@ public abstract class LibraryLoader<T> {
     /**
      * Adds a custom java type mapping.
      *
+     * @param <J> The Java type.
      * @param javaType The java type to convert to a native type.
      * @param toNativeConverter A {@link jnr.ffi.mapper.ToNativeConverter} that will convert from the java type to a native type.
      * @return The {@code LibraryLoader} instance.
@@ -157,6 +180,7 @@ public abstract class LibraryLoader<T> {
     /**
      * Adds a custom java type mapping.
      *
+     * @param <J> The Java type.
      * @param javaType The java type to convert to a native type.
      * @param fromNativeConverter A {@link jnr.ffi.mapper.ToNativeConverter} that will convert from the native type to a java type.
      * @return The {@code LibraryLoader} instance.
@@ -203,6 +227,7 @@ public abstract class LibraryLoader<T> {
      * <p>This is only needed on windows platforms - unless explicitly specified, all platforms assume
      * {@link CallingConvention#DEFAULT} as the calling convention.
      *
+     * @param convention The calling convention.
      * @return The {@code LibraryLoader} instance.
      */
     public LibraryLoader<T> convention(CallingConvention convention) {
@@ -299,9 +324,9 @@ public abstract class LibraryLoader<T> {
      * Implemented by FFI providers to load the actual library.
      *
      * @param interfaceClass The java class that describes the functions to be mapped.
-     * @param libraryNames A list of libraries to load & search for symbols
-     * @param searchPaths The paths to search for libraries to be loaded
-     * @param options The options to apply when loading the library
+     * @param libraryNames A list of libraries to load and search for symbols.
+     * @param searchPaths The paths to search for libraries to be loaded.
+     * @param options The options to apply when loading the library.
      * @return an instance of {@code interfaceClass} that will call the native methods.
      */
     protected abstract T loadLibrary(Class<T> interfaceClass, Collection<String> libraryNames,
@@ -310,6 +335,29 @@ public abstract class LibraryLoader<T> {
 
     private static final class StaticDataHolder {
         private static final List<String> USER_LIBRARY_PATH;
+        private static void addPaths(List<String> paths, File file) {
+            if (!file.isFile() || !file.exists()) return;
+            BufferedReader in = null;
+            try {
+                in = new BufferedReader(new FileReader(file));
+                String line = in.readLine();
+                while( line != null ) {
+                    if (new File(line).exists()) {
+                        paths.add(line);
+                    }
+                    line = in.readLine();
+                }
+            }
+            catch(IOException ignored) {
+            }
+            finally {
+                if (in != null) {
+                    try { in.close(); }
+                    catch(IOException ignored) {}
+                }
+            }
+        }
+
         static {
             List<String> paths = new ArrayList<String>();
             try {
@@ -318,7 +366,34 @@ public abstract class LibraryLoader<T> {
                 // Add JNA paths for compatibility
                 paths.addAll(getPropertyPaths("jna.library.path"));
                 paths.addAll(getPropertyPaths("java.library.path"));
-            } catch (Exception ignored) {}
+            } catch (Exception ignored) {
+            }
+
+            switch (Platform.getNativePlatform().getOS()) {
+                case FREEBSD:
+                case OPENBSD:
+                case NETBSD:
+                case LINUX:
+                case ZLINUX:
+                    // only for oracle jdk on Linux and non-OSX BSD parse /etc/ld.so.conf and /etc/ld.so.conf.d/*
+                    // more details:
+                    // https://github.com/jruby/jruby/issues/2913
+                    // https://github.com/jruby/jruby/issues/3145
+                    // https://github.com/elastic/logstash/issues/3127#issuecomment-101068714
+                    File ldSoConf = new File("/etc/ld.so.conf");
+                    File ldSoConfD = new File("/etc/ld.so.conf.d");
+
+                    if (ldSoConf.exists()) {
+                        addPaths(paths, ldSoConf);
+                    }
+
+                    if (ldSoConfD.isDirectory()) {
+                        for (File file : ldSoConfD.listFiles()) {
+                            addPaths(paths, file);
+                        }
+                    }
+                    break;
+            }
             USER_LIBRARY_PATH = Collections.unmodifiableList(new ArrayList<String>(paths));
         }
     }
@@ -332,5 +407,4 @@ public abstract class LibraryLoader<T> {
         }
         return Collections.emptyList();
     }
-
 }

@@ -1,3 +1,21 @@
+/*
+ * Copyright (C) 2011 Wayne Meissner
+ *
+ * This file is part of the JNR project.
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *    http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+
 package jnr.ffi.provider.jffi;
 
 import com.kenai.jffi.*;
@@ -169,8 +187,7 @@ abstract class AbstractFastNumericMethodGenerator extends BaseMethodGenerator {
     static boolean hasPointerParameterStrategy(Class javaType) {
         for (Class c : STRATEGY_PARAMETER_TYPES.keySet()) {
             if (c.isAssignableFrom(javaType)) {
-                // FIXME: replace special handling for 32/64bit arrays with more generic elsewhere
-                return !(LongBuffer.class.isAssignableFrom(javaType) || long[].class == javaType) || sizeof(NativeType.SLONG) == 8;
+                return true;
             }
         }
 

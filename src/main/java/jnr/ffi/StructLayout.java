@@ -1,3 +1,21 @@
+/*
+ * Copyright (C) 2011 Wayne Meissner
+ *
+ * This file is part of the JNR project.
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *    http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+
 package jnr.ffi;
 
 import jnr.ffi.util.EnumMapper;
@@ -23,6 +41,8 @@ public class StructLayout extends Type {
 
     /**
      * Creates a new <tt>StructLayout</tt>.
+     *
+     * @param runtime The current runtime.
      */
     protected StructLayout(Runtime runtime) {
         this.runtime = runtime;
@@ -56,7 +76,7 @@ public class StructLayout extends Type {
     /**
      * Returns a human readable {@link java.lang.String} representation of the structure.
      *
-     * @return a <tt>String representation of this structure.
+     * @return a {@code String} representation of this structure.
      */
     @Override
     public java.lang.String toString() {
@@ -130,6 +150,8 @@ public class StructLayout extends Type {
 
         /**
          * Gets the offset within the structure for this field.
+         *
+         * @return the offset within the structure.
          */
         public final long offset() {
             return offset + StructLayout.this.offset;
@@ -252,6 +274,7 @@ public class StructLayout extends Type {
         /**
          * Gets the value for this field.
          *
+         * @param ptr The pointer to the field.
          * @return a boolean.
          */
         public abstract boolean get(jnr.ffi.Pointer ptr);
@@ -259,6 +282,7 @@ public class StructLayout extends Type {
         /**
          * Sets the field to a new value.
          *
+         * @param ptr The pointer to the field.
          * @param value The new value.
          */
         public abstract void set(jnr.ffi.Pointer ptr, boolean value);
@@ -266,6 +290,7 @@ public class StructLayout extends Type {
         /**
          * Returns a string representation of this <code>Boolean</code>.
          *
+         * @param ptr The pointer to the field.
          * @return a string representation of this <code>Boolean</code>.
          */
         public java.lang.String toString(jnr.ffi.Pointer ptr) {
@@ -344,6 +369,7 @@ public class StructLayout extends Type {
         /**
          * Sets the field to a new value.
          *
+         * @param ptr The pointer to the field.
          * @param value The new value.
          */
         public abstract void set(jnr.ffi.Pointer ptr, java.lang.Number value);
@@ -351,6 +377,7 @@ public class StructLayout extends Type {
         /**
          * Returns an {@code float} representation of this <tt>Number</tt>.
          *
+         * @param ptr The pointer to the field.
          * @return an {@code float} value for this <tt>Number</tt>.
          */
         public double doubleValue(jnr.ffi.Pointer ptr) {
@@ -360,6 +387,7 @@ public class StructLayout extends Type {
         /**
          * Returns an {@code float} representation of this <tt>Number</tt>.
          *
+         * @param ptr The pointer to the field.
          * @return an {@code float} value for this <tt>Number</tt>.
          */
         public float floatValue(jnr.ffi.Pointer ptr) {
@@ -369,6 +397,7 @@ public class StructLayout extends Type {
         /**
          * Returns a {@code byte} representation of this <tt>Number</tt>.
          *
+         * @param ptr The pointer to the field.
          * @return a {@code byte} value for this <tt>Number</tt>.
          */
         public byte byteValue(jnr.ffi.Pointer ptr) {
@@ -378,6 +407,7 @@ public class StructLayout extends Type {
         /**
          * Returns a {@code short} representation of this <tt>Number</tt>.
          *
+         * @param ptr The pointer to the field.
          * @return a {@code short} value for this <tt>Number</tt>.
          */
         public short shortValue(jnr.ffi.Pointer ptr) {
@@ -387,6 +417,7 @@ public class StructLayout extends Type {
         /**
          * Returns a {@code int} representation of this <tt>Number</tt>.
          *
+         * @param ptr The pointer to the field.
          * @return a {@code int} value for this <tt>Number</tt>.
          */
         public abstract int intValue(jnr.ffi.Pointer ptr);
@@ -394,6 +425,7 @@ public class StructLayout extends Type {
         /**
          * Returns a {@code long} representation of this <tt>Number</tt>.
          *
+         * @param ptr The pointer to the field.
          * @return a {@code long} value for this <tt>Number</tt>.
          */
         public long longValue(jnr.ffi.Pointer ptr) {
@@ -403,6 +435,7 @@ public class StructLayout extends Type {
         /**
          * Returns a string representation of this <code>Number</code>.
          *
+         * @param ptr The pointer to the field.
          * @return a string representation of this <code>Number</code>.
          */
         public java.lang.String toString(jnr.ffi.Pointer ptr) {
@@ -431,6 +464,7 @@ public class StructLayout extends Type {
         /**
          * Gets the value for this field.
          *
+         * @param ptr The pointer to the field.
          * @return a long.
          */
         public final long get(jnr.ffi.Pointer ptr) {
@@ -472,6 +506,7 @@ public class StructLayout extends Type {
         /**
          * Gets the value for this field.
          *
+         * @param ptr The pointer to the field.
          * @return a byte.
          */
         public final byte get(jnr.ffi.Pointer ptr) {
@@ -546,6 +581,7 @@ public class StructLayout extends Type {
         /**
          * Gets the value for this field.
          *
+         * @param ptr The pointer to the field.
          * @return a byte.
          */
         public final short get(jnr.ffi.Pointer ptr) {
@@ -556,6 +592,7 @@ public class StructLayout extends Type {
         /**
          * Sets the value for this field.
          *
+         * @param ptr The pointer to the field.
          * @param value the 8 bit value to set.
          */
         public final void set(jnr.ffi.Pointer ptr, short value) {
@@ -610,6 +647,7 @@ public class StructLayout extends Type {
         /**
          * Gets the value for this field.
          *
+         * @param ptr The pointer to the field.
          * @return a short.
          */
         public final short get(jnr.ffi.Pointer ptr) {
@@ -619,6 +657,7 @@ public class StructLayout extends Type {
         /**
          * Sets the value for this field.
          *
+         * @param ptr The pointer to the field.
          * @param value the 16 bit value to set.
          */
         public final void set(jnr.ffi.Pointer ptr, short value) {
@@ -673,6 +712,7 @@ public class StructLayout extends Type {
         /**
          * Gets the value for this field.
          *
+         * @param ptr The pointer to the field.
          * @return a short.
          */
         public final int get(jnr.ffi.Pointer ptr) {
@@ -683,6 +723,7 @@ public class StructLayout extends Type {
         /**
          * Sets the value for this field.
          *
+         * @param ptr The pointer to the field.
          * @param value the 16 bit unsigned value to set.
          */
         public final void set(jnr.ffi.Pointer ptr, int value) {
@@ -696,6 +737,7 @@ public class StructLayout extends Type {
         /**
          * Returns a java int representation of this field.
          *
+         * @param ptr The pointer to the field.
          * @return a java int value for this field.
          */
         @Override
@@ -727,6 +769,7 @@ public class StructLayout extends Type {
         /**
          * Gets the value for this field.
          *
+         * @param ptr The pointer to the field.
          * @return a int.
          */
         public final int get(jnr.ffi.Pointer ptr) {
@@ -736,6 +779,7 @@ public class StructLayout extends Type {
         /**
          * Sets the value for this field.
          *
+         * @param ptr The pointer to the field.
          * @param value the 32 bit value to set.
          */
         public final void set(jnr.ffi.Pointer ptr, int value) {
@@ -749,6 +793,7 @@ public class StructLayout extends Type {
         /**
          * Returns a java int representation of this field.
          *
+         * @param ptr The pointer to the field.
          * @return a java int value for this field.
          */
         @Override
@@ -780,6 +825,7 @@ public class StructLayout extends Type {
         /**
          * Gets the value for this field.
          *
+         * @param ptr The pointer to the field.
          * @return a long.
          */
         public final long get(jnr.ffi.Pointer ptr) {
@@ -790,6 +836,7 @@ public class StructLayout extends Type {
         /**
          * Sets the value for this field.
          *
+         * @param ptr The pointer to the field.
          * @param value the 32 bit unsigned value to set.
          */
         public final void set(jnr.ffi.Pointer ptr, long value) {
@@ -803,6 +850,7 @@ public class StructLayout extends Type {
         /**
          * Returns a java int representation of this field.
          *
+         * @param ptr The pointer to the field.
          * @return a java int value for this field.
          */
         @Override
@@ -813,6 +861,7 @@ public class StructLayout extends Type {
         /**
          * Returns a java long representation of this field.
          *
+         * @param ptr The pointer to the field.
          * @return a java long value for this field.
          */
         @Override
@@ -844,6 +893,7 @@ public class StructLayout extends Type {
         /**
          * Gets the value for this field.
          *
+         * @param ptr The pointer to the field.
          * @return a long.
          */
         public final long get(jnr.ffi.Pointer ptr) {
@@ -853,6 +903,7 @@ public class StructLayout extends Type {
         /**
          * Sets the value for this field.
          *
+         * @param ptr The pointer to the field.
          * @param value the 64 bit value to set.
          */
         public final void set(jnr.ffi.Pointer ptr, long value) {
@@ -866,6 +917,7 @@ public class StructLayout extends Type {
         /**
          * Returns a java int representation of this field.
          *
+         * @param ptr The pointer to the field.
          * @return a java int value for this field.
          */
         @Override
@@ -876,6 +928,7 @@ public class StructLayout extends Type {
         /**
          * Returns a java long representation of this field.
          *
+         * @param ptr The pointer to the field.
          * @return a java long value for this field.
          */
         @Override
@@ -886,6 +939,7 @@ public class StructLayout extends Type {
         /**
          * Returns a string representation of this field.
          *
+         * @param ptr The pointer to the field.
          * @return a string representation of this field.
          */
         @Override
@@ -917,6 +971,7 @@ public class StructLayout extends Type {
         /**
          * Gets the value for this field.
          *
+         * @param ptr The pointer to the field.
          * @return a long.
          */
         public final long get(jnr.ffi.Pointer ptr) {
@@ -926,6 +981,7 @@ public class StructLayout extends Type {
         /**
          * Sets the value for this field.
          *
+         * @param ptr The pointer to the field.
          * @param value the 64 bit value to set.
          */
         public final void set(jnr.ffi.Pointer ptr, long value) {
@@ -939,6 +995,7 @@ public class StructLayout extends Type {
         /**
          * Returns a java int representation of this field.
          *
+         * @param ptr The pointer to the field.
          * @return a java int value for this field.
          */
         @Override
@@ -949,6 +1006,7 @@ public class StructLayout extends Type {
         /**
          * Returns a java long representation of this field.
          *
+         * @param ptr The pointer to the field.
          * @return a java long value for this field.
          */
         @Override
@@ -959,6 +1017,7 @@ public class StructLayout extends Type {
         /**
          * Returns a string representation of this field.
          *
+         * @param ptr The pointer to the field.
          * @return a string representation of this field.
          */
         @Override
@@ -990,6 +1049,7 @@ public class StructLayout extends Type {
         /**
          * Gets the value for this field.
          *
+         * @param ptr The pointer to the field.
          * @return a long.
          */
         public final long get(jnr.ffi.Pointer ptr) {
@@ -999,6 +1059,7 @@ public class StructLayout extends Type {
         /**
          * Sets the value for this field.
          *
+         * @param ptr The pointer to the field.
          * @param value the 32/64 bit value to set.
          */
         public final void set(jnr.ffi.Pointer ptr, long value) {
@@ -1012,6 +1073,7 @@ public class StructLayout extends Type {
         /**
          * Returns a java int representation of this field.
          *
+         * @param ptr The pointer to the field.
          * @return a java int value for this field.
          */
         @Override
@@ -1022,6 +1084,7 @@ public class StructLayout extends Type {
         /**
          * Returns a java long representation of this field.
          *
+         * @param ptr The pointer to the field.
          * @return a java long value for this field.
          */
         @Override
@@ -1032,6 +1095,7 @@ public class StructLayout extends Type {
         /**
          * Returns a string representation of this field.
          *
+         * @param ptr The pointer to the field.
          * @return a string representation of this field.
          */
         @Override
@@ -1064,6 +1128,7 @@ public class StructLayout extends Type {
         /**
          * Gets the value for this field.
          *
+         * @param ptr The pointer to the field.
          * @return a int.
          */
         public final long get(jnr.ffi.Pointer ptr) {
@@ -1077,6 +1142,7 @@ public class StructLayout extends Type {
         /**
          * Sets the value for this field.
          *
+         * @param ptr The pointer to the field.
          * @param value the 32/64 bit value to set.
          */
         public final void set(jnr.ffi.Pointer ptr, long value) {
@@ -1225,6 +1291,7 @@ public class StructLayout extends Type {
         /**
          * Gets the {@link jnr.ffi.Pointer} value from the native memory.
          *
+         * @param ptr The pointer to the field.
          * @return a {@link jnr.ffi.Pointer}.
          */
         public final jnr.ffi.Pointer get(jnr.ffi.Pointer ptr) {
@@ -1242,6 +1309,9 @@ public class StructLayout extends Type {
 
         /**
          * Sets a {@link jnr.ffi.Pointer} value in the native memory.
+         *
+         * @param ptr The pointer to the write location.
+         * @param value The value to set.
          */
         public final void set(jnr.ffi.Pointer ptr, jnr.ffi.Pointer value) {
             ptr.putPointer(offset(), value);
@@ -1308,6 +1378,7 @@ public class StructLayout extends Type {
          *
          * @param type the native type of the enum.
          * @param enumClass the Enum class.
+         * @param offset the offset.
          */
         public EnumField(NativeType type, Class<E> enumClass, Offset offset) {
             super(type, offset);
@@ -1318,6 +1389,7 @@ public class StructLayout extends Type {
         /**
          * Gets a java Enum value representing the native integer value.
          *
+         * @param ptr The pointer to the field.
          * @return a java Enum value.
          */
         public E get(jnr.ffi.Pointer ptr) {
@@ -1327,6 +1399,7 @@ public class StructLayout extends Type {
         /**
          * Returns a string representation of this field.
          *
+         * @param ptr The pointer to the field.
          * @return a string representation of this field.
          */
         @Override
@@ -1363,6 +1436,7 @@ public class StructLayout extends Type {
         /**
          * Sets the native integer value using a java Enum value.
          *
+         * @param ptr The pointer to the field.
          * @param value the java <tt>Enum</tt> value.
          */
         public final void set(jnr.ffi.Pointer ptr, E value) {
